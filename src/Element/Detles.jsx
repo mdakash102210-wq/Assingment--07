@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router";
 import UsedataHook from "./UsedataHook";
 import { IoIosAlarm, IoMdAlarm } from "react-icons/io";
@@ -7,20 +7,35 @@ import { MdDeleteSweep, MdOutlineDeleteSweep } from "react-icons/md";
 import { ClockLoader } from "react-spinners";
 import { BiSolidPhoneCall } from "react-icons/bi";
 import { BsChatSquareTextFill } from "react-icons/bs";
+import { UseContext } from "./UseContext";
+import { toast } from "react-toastify";
 
 export default function Detles() {
+  let call = "calls";
+  let text = "text";
+  let video = "video";
   let { loader, OutData } = UsedataHook();
   let { id } = useParams();
   let expectdedData = OutData.find((data) => data.id == id);
-  console.log(expectdedData);
+
+  let { BtnCliData, setBtnCliData } = useContext(UseContext);
+
+  function HendelBtn(ass, { expectdedData }) {
+    const xData = { ...expectdedData };
+    xData.value = ass;
+    // console.log(name, expectdedData);
+    let newarray = [...BtnCliData, xData];
+    setBtnCliData(newarray);
+    toast(`${expectdedData.name} is ${ass} `);
+  }
 
   return loader ? (
     <div className="flex justify-center items-center h-[30vh]">
       <ClockLoader />
     </div>
   ) : (
-    <div className=" container m-auto flex gap-5 items-center my-10">
-      <div className="first flex-1">
+    <div className=" container m-auto flex flex-col md:flex-row gap-5 items-center my-10">
+      <div className="first flex-1 w-[100%]">
         <div className="p-3 border-2 border-sky-200 rounded-xl">
           <div className="img">
             <img
@@ -69,7 +84,7 @@ export default function Detles() {
           </div>
         </div>
       </div>
-      <div className="end flex-2">
+      <div className="end   flex-2">
         <div className="cardContainer grid-cols-3 grid gap-5">
           <div className="content border-2 border-gray-300 rounded-xl py-5 px-8 text-center">
             <h1 className="text-2xl font-bold">
@@ -105,19 +120,28 @@ export default function Detles() {
           <h1 className="font-bold text-2xl my-5">Quick Check -In</h1>
 
           <div className="cardContainer grid-cols-3 grid gap-5">
-            <div className="content bg-gray-200 rounded-xl py-5 px-8 text-center space-y-2">
+            <div
+              className="content bg-gray-200 rounded-xl py-5 px-8 text-center space-y-2 cursor-pointer"
+              onClick={() => HendelBtn(call, { expectdedData })}
+            >
               <h1 className="text-2xl font-bold flex flex-col items-center">
                 <BiSolidPhoneCall />
               </h1>
               <p className="text-gray-500 font-semibold">Call</p>
             </div>
-            <div className="content bg-gray-200 rounded-xl py-5 px-8 text-center space-y-2">
+            <div
+              className="content bg-gray-200 rounded-xl py-5 px-8 text-center space-y-2 cursor-pointer"
+              onClick={() => HendelBtn(text, { expectdedData })}
+            >
               <h1 className="text-2xl font-bold flex flex-col items-center">
                 <BsChatSquareTextFill />
               </h1>
               <p className="text-gray-500 font-semibold">Text</p>
             </div>
-            <div className="content bg-gray-200 rounded-xl py-5 px-8 text-center space-y-2">
+            <div
+              className="content bg-gray-200 rounded-xl py-5 px-8 text-center space-y-2 cursor-pointer"
+              onClick={() => HendelBtn(video, { expectdedData })}
+            >
               <h1 className="text-2xl font-bold flex flex-col items-center">
                 <FaVideo />
               </h1>
