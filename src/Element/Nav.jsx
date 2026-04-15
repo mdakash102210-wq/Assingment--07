@@ -10,7 +10,7 @@ export default function Nav() {
       <div className="flex flex-col gap-5 md:flex-row justify-between items-center py-2 my-2 container m-auto ">
         <div className="first">
           <h1 className="font-bold text-2xl">
-            Keen <span className="font-semibold">Keeper Faruk</span>
+            Keen <span className="font-semibold">Keeper</span>
           </h1>
         </div>
         <div className="end">
